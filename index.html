@@ -1,0 +1,253 @@
+<html>
+
+<head>
+    <style type="text/css">
+        div {
+            border: 1px solid black;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- <input class="form-control" type="text" id="coin"> -->
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Crypto</label>
+            <select class="form-control" id="coin">
+             
+            </select>
+          </div>
+
+
+
+        <input class="form-control" type="number" id="num">
+        <button class="btn btn-primary" id="submit">Submit</button>
+    </div>
+
+
+    <div class="container">
+        <canvas id="myChart" width="400" height="200"></canvas>
+    </div>
+
+
+
+    <table class="table">
+        
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Current Price</th>
+                <th scope="col">Last Updated</th>
+            </tr>
+
+
+
+           
+        </thead>
+        <tbody id="res">
+            <!-- <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr> -->
+          
+    
+        </tbody>
+    </table>
+
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+
+<script type="text/javascript">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(async function () {
+
+        try {
+            // var connect=await conn().then(res=>res.json())
+            // console.log('conns',connect)
+
+
+
+
+
+
+
+            // var exg=await exchange().then(res=>res.json())
+            // console.log('EXCG price',exg)
+
+
+
+            // var vs_curr = await currencies().then(res => res.json())
+            // console.log('CURRENCIES supported are', vs_curr)
+
+
+            // var market=await see_market().then(res=>res.json())
+
+
+
+            var market = await see_market('eth').then(res => res.json())
+            console.log('market is', market)
+
+            // <td>${market[j]['current_price']}</td>
+            // onclick="test_click()"
+
+            var res = $('#res')
+            for (let j = 0; j < 10; j++) {
+                console.log(market[j]['name'])
+                res.append(`<tr>
+            <th width=25% scope="row" id="${market[j]['id']}" > <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample${j}" role="button" aria-expanded="false" aria-controls="collapseExample">${market[j]['name']}</a></th>
+            <td width=25%><img width=50px height=50px src="${market[j]['image']}"></td>
+            <td width=25%>${market[j]['current_price']}</td>
+            <td width=25%>${market[j]['last_updated']}</td>
+           
+          </tr>
+          <tr class="collapse" id="collapseExample${j}">
+           
+            <td width=25%>Market Cap: ${market[j]['market_cap']}</td>
+            <td width=25%>Total Volume: ${market[j]['total_volume']}</td>
+            <td width=25%>High 24H: ${market[j]['high_24h']}</td>
+            <td width=25%>Low 24H: ${market[j]['low_24h']}</td>
+
+          </tr>
+          <tr class="collapse" id="collapseExample${j}">
+           
+           <td width=25%>Total Supply: ${market[j]['total_supply']}</td>
+           <td width=25%>Circulating Supply: ${market[j]['circulating_supply']}</td>
+           <td width=25%>Price Change 24H: ${market[j]['price_change_24h']}</td>
+           <td width=25%>Market Capital Change 24H: ${market[j]['market_cap_change_24h']}</td>
+
+         </tr>
+          
+          `)
+
+            }
+
+
+            var co=$('#coin')
+            for(let k=0;k<market.length;k++){
+                co.append(`<option  value="${market[k]['id']}">${market[k]['id']}</option>`)
+            }
+            
+
+            // console.log('last line')
+
+            // for(let j=0;j<list.length;j++){
+            //         console.log('for ',vs_curr[i])
+            //         if(list[j]['symbol']==vs_curr[i]){
+            //             console.log(list[j])
+            //         }
+            //     }
+
+
+
+        //     <div class="collapse" id="collapseExample">
+        //     <div class="card card-body">
+        //       Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+        //     </div>
+        //   </div>
+
+        }
+        catch (err) {
+            console.log('ERROR IS: ', err)
+        }
+
+    })
+
+
+
+    $('#submit').click(async function(){
+
+        var coin=$('#coin').val()
+        var num=$('#num').val()
+
+        var cha = await price(coin,num).then(res => res.json())
+            console.log(cha)
+
+
+            var arr=[]
+            var lab=[]
+            cha.prices.forEach((element,ind) => {
+                arr.push(element[1])
+                lab.push(ind)
+            });
+
+            // console.log(arr)
+            // console.log(lab)
+
+            var ctx = document.getElementById('myChart');
+            ctx.innerHTML=''
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    // labels: ['delhi', 'mumbai', 'chennai', 'bangalore'],
+                    labels:lab,
+                    datasets: [{
+                        label: 'price',
+                        data: arr
+                    }]
+                },
+                // options: {
+                //     scales: {
+                //         yAxes: [{
+                //             ticks: {
+                //                 beginAtZero: true
+                //             }
+                //         }]
+                //     }
+                // }
+            })
+    })
+
+    function price(c,n) {
+        //return fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=btc&days=2')
+        return fetch(`https://api.coingecko.com/api/v3/coins/${c}/market_chart?vs_currency=usd&days=${n}`)
+    }
+
+    function test_click() {
+        alert(this.event.target.id)
+    }
+
+
+    function see_market(cu) {
+        return fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${cu}&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
+    }
+
+
+    function conn() {
+        return fetch('https://api.coingecko.com/api/v3/ping')
+
+    }
+
+    function fetch_list() {
+        return fetch('https://api.coingecko.com/api/v3/coins/list')
+        // .then(res=>console.log('LIST COMING',res.json()))
+    }
+
+    function exchange() {
+        return fetch('https://api.coingecko.com/api/v3/exchange_rates')
+
+    }
+
+    function currencies() {
+        return fetch('https://api.coingecko.com/api/v3/simple/supported_vs_currencies')
+    }
+
+</script>
+
+</html>
